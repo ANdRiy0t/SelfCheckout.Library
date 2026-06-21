@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>SelfCheckout.HardwareBridge.Core</PackageId>
+        <Description>Core infrastructure (DeviceBase, DeviceManager) for the SelfCheckout.HardwareBridge hardware abstraction library.</Description>
+        <PackageTags>self-checkout;hardware;device-management;core</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\SelfCheckout.HardwareBridge.Abstractions\SelfCheckout.HardwareBridge.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

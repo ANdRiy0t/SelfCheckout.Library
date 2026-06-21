@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SelfCheckout.HardwareBridge.Demo.Maui.ViewModels"
+             x:Class="SelfCheckout.HardwareBridge.Demo.Maui.Views.CheckoutPage"
+             x:DataType="vm:CheckoutViewModel"
+             Title="Checkout">
+
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0" BackgroundColor="{StaticResource PageBg}">
+
+        <!-- Row 0: Cart header + Total -->
+        <Border Grid.Row="0"
+                BackgroundColor="{StaticResource CardBg}"
+                Stroke="#E2E8F0"
+                StrokeShape="RoundRectangle 0"
+                StrokeThickness="0"
+                Padding="14,12">
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Grid.Column="0"
+                       Text="Cart"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource TextPrimary}"
+                       VerticalOptions="Center"/>
+                <Label Grid.Column="1"
+                       Text="{Binding Total, StringFormat='Total: {0:C}'}"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource BrandAccent}"
+                       VerticalOptions="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- Row 1: Cart items -->
+        <Border Grid.Row="1"
+                BackgroundColor="{StaticResource CardBg}"
+                Stroke="#E2E8F0"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="6"
+                Margin="12,12,12,6">
+            <CollectionView ItemsSource="{Binding Cart}"
+                            EmptyView="Cart is empty — scan a barcode to add an item.">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:CartItem">
+                        <Grid ColumnDefinitions="*,Auto,Auto" Padding="10,8" ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="{Binding Barcode}"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       FontSize="14"/>
+                                <Label FontSize="12" TextColor="{StaticResource TextSecondary}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="x"/>
+                                            <Span Text="{Binding Quantity}"/>
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding Unit}"/>
+                                            <Span Text="  •  "/>
+                                            <Span Text="{Binding Price, StringFormat='{0:C}'}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+                            <Label Grid.Column="1"
+                                   Text="{Binding Price, StringFormat='{0:C}'}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   VerticalOptions="Center"/>
+                            <Button Grid.Column="2"
+                                    Text="✕"
+                                    FontSize="14"
+                                    WidthRequest="36"
+                                    HeightRequest="36"
+                                    Padding="0"
+                                    BackgroundColor="Transparent"
+                                    TextColor="{StaticResource TextSecondary}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CheckoutViewModel}}, Path=RemoveItemCommand}"
+                                    CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+
+        <!-- Row 2: Action panel -->
+        <Border Grid.Row="2"
+                BackgroundColor="{StaticResource CardBg}"
+                Stroke="#E2E8F0"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="12"
+                Margin="12,0,12,12">
+            <VerticalStackLayout Spacing="10">
+                <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                    <Label Text="Price:" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}"/>
+                    <Entry Text="{Binding CurrentPrice}" Keyboard="Numeric" WidthRequest="120"/>
+                    <Label VerticalOptions="Center" TextColor="{StaticResource TextSecondary}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Scale: "/>
+                                <Span Text="{Binding CurrentWeight}"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding WeightUnit}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </HorizontalStackLayout>
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Button Grid.Column="0" Text="Scan + Add" Command="{Binding ScanAndAddCommand}"/>
+                    <Button Grid.Column="1" Text="Weigh" Command="{Binding WeighCommand}"/>
+                    <Button Grid.Column="2" Text="Clear" Command="{Binding ClearCartCommand}"/>
+                </Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                    <Button Grid.Column="0"
+                            Text="Pay"
+                            Command="{Binding PayCommand}"
+                            BackgroundColor="{StaticResource BrandAccent}"
+                            TextColor="White"/>
+                    <Button Grid.Column="1"
+                            Text="Print Receipt"
+                            Command="{Binding PrintReceiptCommand}"/>
+                </Grid>
+                <Button Text="Download Receipt"
+                        Command="{Binding DownloadReceiptCommand}"
+                        IsVisible="{Binding IsReceiptReady}"
+                        BackgroundColor="#28A745"
+                        TextColor="White"/>
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+</ContentPage>

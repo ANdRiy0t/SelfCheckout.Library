@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SelfCheckout.HardwareBridge.Demo.Maui.ViewModels"
+             x:Class="SelfCheckout.HardwareBridge.Demo.Maui.Views.TransportsPage"
+             x:DataType="vm:TransportsViewModel"
+             Title="Transports">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="0" BackgroundColor="{StaticResource PageBg}">
+
+        <!-- Row 0: Section header -->
+        <Border Grid.Row="0"
+                BackgroundColor="{StaticResource Brand}"
+                StrokeThickness="0"
+                Padding="14,10">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="ITransport Layer Demo"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="White"/>
+                <Label Text="Direct exercise of MockTransport + SerialTransport options"
+                       FontSize="11"
+                       TextColor="White"
+                       Opacity="0.85"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Row 1: MockTransport status + controls -->
+        <Border Grid.Row="1"
+                BackgroundColor="{StaticResource CardBg}"
+                Stroke="#E2E8F0"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="12"
+                Margin="12,12,12,6">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="MockTransport (in-memory ITransport double)"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource TextPrimary}"/>
+                <HorizontalStackLayout Spacing="14" VerticalOptions="Center">
+                    <Label Text="{Binding IsOpen, StringFormat='State: {0}'}"
+                           FontFamily="Courier New"
+                           FontSize="12"
+                           TextColor="{StaticResource TextPrimary}"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding OpenCount, StringFormat='Opens: {0}'}"
+                           FontFamily="Courier New"
+                           FontSize="12"
+                           TextColor="{StaticResource TextSecondary}"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding CloseCount, StringFormat='Closes: {0}'}"
+                           FontFamily="Courier New"
+                           FontSize="12"
+                           TextColor="{StaticResource TextSecondary}"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                    <Button Grid.Column="0" Text="Open" Command="{Binding OpenTransportCommand}"/>
+                    <Button Grid.Column="1" Text="Close" Command="{Binding CloseTransportCommand}"/>
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Entry Grid.Column="0"
+                           Text="{Binding WriteInputHex}"
+                           Placeholder="hex bytes e.g. 48 65 6C 6C 6F"
+                           FontFamily="Courier New"/>
+                    <Button Grid.Column="1" Text="Write Bytes" Command="{Binding WriteTransportCommand}"/>
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Entry Grid.Column="0"
+                           Text="{Binding EnqueueInputHex}"
+                           Placeholder="hex bytes e.g. 41 43 4B"
+                           FontFamily="Courier New"/>
+                    <Button Grid.Column="1" Text="Enqueue Read" Command="{Binding EnqueueReadCommand}"/>
+                </Grid>
+                <Label Text="(Enqueue Read is a test helper: pushes bytes into the read channel so the background ReadAllAsync pump surfaces them.)"
+                       FontSize="10"
+                       TextColor="{StaticResource TextSecondary}"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Row 2: SerialTransport info -->
+        <Border Grid.Row="2"
+                BackgroundColor="{StaticResource CardBg}"
+                Stroke="#E2E8F0"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="12"
+                Margin="12,0,12,6">
+            <VerticalStackLayout Spacing="6">
+                <Label Text="SerialTransport (system serial port)"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource TextPrimary}"/>
+                <Label Text="Current SerialTransportOptions:"
+                       FontSize="11"
+                       TextColor="{StaticResource TextSecondary}"/>
+                <Label Text="{Binding SerialOptionsSummary}"
+                       FontFamily="Courier New"
+                       FontSize="11"
+                       TextColor="{StaticResource TextPrimary}"/>
+                <Label Text="Note: real SerialPort enumeration is not available on the Android emulator — info-only on this build."
+                       FontSize="10"
+                       TextColor="{StaticResource TextSecondary}"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Row 3: Two byte-stream panels -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="6" Margin="12,0,12,12">
+            <Border Grid.Column="0"
+                    BackgroundColor="#0D1117"
+                    StrokeShape="RoundRectangle 8"
+                    StrokeThickness="0"
+                    Padding="8">
+                <Grid RowDefinitions="Auto,*" RowSpacing="6">
+                    <Label Grid.Row="0"
+                           Text="WRITTEN CHUNKS"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="11"
+                           FontFamily="Courier New"/>
+                    <CollectionView Grid.Row="1" ItemsSource="{Binding WrittenChunks}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding .}"
+                                       FontFamily="Courier New"
+                                       FontSize="11"
+                                       TextColor="#A6E22E"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+            <Border Grid.Column="1"
+                    BackgroundColor="#0D1117"
+                    StrokeShape="RoundRectangle 8"
+                    StrokeThickness="0"
+                    Padding="8">
+                <Grid RowDefinitions="Auto,*" RowSpacing="6">
+                    <Label Grid.Row="0"
+                           Text="READ CHUNKS"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="11"
+                           FontFamily="Courier New"/>
+                    <CollectionView Grid.Row="1" ItemsSource="{Binding ReadChunks}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding .}"
+                                       FontFamily="Courier New"
+                                       FontSize="11"
+                                       TextColor="#66D9EF"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+        </Grid>
+
+    </Grid>
+</ContentPage>

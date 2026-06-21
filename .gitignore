@@ -1,0 +1,12 @@
+bin/
+obj/
+/packages/
+/artifacts/
+riderModule.iml
+/_ReSharper.Caches/
+
+# IDE files and local Claude/GSD artifacts — kept local, not published
+.idea/
+.planning/
+.claude/
+CLAUDE.md

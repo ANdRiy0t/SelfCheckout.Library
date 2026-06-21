@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SelfCheckout.HardwareBridge.Demo.Maui.ViewModels"
+             x:Class="SelfCheckout.HardwareBridge.Demo.Maui.Views.DevicesPage"
+             x:DataType="vm:DevicesViewModel"
+             Title="Devices">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Settings"
+                     IconImageSource="settings.png"
+                     Command="{Binding OpenSettingsCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="*,Auto,Auto" RowSpacing="0" BackgroundColor="{StaticResource PageBg}">
+
+        <!-- Row 0: Device status cards -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="12" Padding="12">
+
+                <!-- Scanner card -->
+                <Border BackgroundColor="{StaticResource CardBg}"
+                        Stroke="#E2E8F0"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" RowDefinitions="Auto,Auto">
+                        <Border Grid.Column="0" Grid.RowSpan="2"
+                                BackgroundColor="{StaticResource IconBg}"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                WidthRequest="48" HeightRequest="48"
+                                VerticalOptions="Center">
+                            <Label Text="🔍" FontSize="24"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="0" Spacing="10" VerticalOptions="Center">
+                            <Label Text="Scanner" FontSize="17" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                            <Border Stroke="{Binding ScannerState, Converter={StaticResource StateToColor}}"
+                                    StrokeShape="RoundRectangle 10"
+                                    StrokeThickness="1"
+                                    BackgroundColor="Transparent"
+                                    Padding="8,2"
+                                    VerticalOptions="Center">
+                                <Label Text="{Binding ScannerState, Converter={StaticResource StateToText}}"
+                                       FontSize="11" FontAttributes="Bold"
+                                       TextColor="{Binding ScannerState, Converter={StaticResource StateToColor}}"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="1" Spacing="8" Margin="0,8,0,0">
+                            <Button Text="📷 Camera" Command="{Binding OpenCameraScanCommand}"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Scale card -->
+                <Border BackgroundColor="{StaticResource CardBg}"
+                        Stroke="#E2E8F0"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" RowDefinitions="Auto">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource IconBg}"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                WidthRequest="48" HeightRequest="48"
+                                VerticalOptions="Center">
+                            <Label Text="⚖️" FontSize="24"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="0" Spacing="10" VerticalOptions="Center">
+                            <Label Text="Scale" FontSize="17" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                            <Border Stroke="{Binding ScaleState, Converter={StaticResource StateToColor}}"
+                                    StrokeShape="RoundRectangle 10"
+                                    StrokeThickness="1"
+                                    BackgroundColor="Transparent"
+                                    Padding="8,2"
+                                    VerticalOptions="Center">
+                                <Label Text="{Binding ScaleState, Converter={StaticResource StateToText}}"
+                                       FontSize="11" FontAttributes="Bold"
+                                       TextColor="{Binding ScaleState, Converter={StaticResource StateToColor}}"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Terminal card -->
+                <Border BackgroundColor="{StaticResource CardBg}"
+                        Stroke="#E2E8F0"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" RowDefinitions="Auto">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource IconBg}"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                WidthRequest="48" HeightRequest="48"
+                                VerticalOptions="Center">
+                            <Label Text="💳" FontSize="24"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="0" Spacing="10" VerticalOptions="Center">
+                            <Label Text="Payment Terminal" FontSize="17" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                            <Border Stroke="{Binding TerminalState, Converter={StaticResource StateToColor}}"
+                                    StrokeShape="RoundRectangle 10"
+                                    StrokeThickness="1"
+                                    BackgroundColor="Transparent"
+                                    Padding="8,2"
+                                    VerticalOptions="Center">
+                                <Label Text="{Binding TerminalState, Converter={StaticResource StateToText}}"
+                                       FontSize="11" FontAttributes="Bold"
+                                       TextColor="{Binding TerminalState, Converter={StaticResource StateToColor}}"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Printer card -->
+                <Border BackgroundColor="{StaticResource CardBg}"
+                        Stroke="#E2E8F0"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" RowDefinitions="Auto">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource IconBg}"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                WidthRequest="48" HeightRequest="48"
+                                VerticalOptions="Center">
+                            <Label Text="🖨️" FontSize="24"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="0" Spacing="10" VerticalOptions="Center">
+                            <Label Text="Printer" FontSize="17" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                            <Border Stroke="{Binding PrinterState, Converter={StaticResource StateToColor}}"
+                                    StrokeShape="RoundRectangle 10"
+                                    StrokeThickness="1"
+                                    BackgroundColor="Transparent"
+                                    Padding="8,2"
+                                    VerticalOptions="Center">
+                                <Label Text="{Binding PrinterState, Converter={StaticResource StateToText}}"
+                                       FontSize="11" FontAttributes="Bold"
+                                       TextColor="{Binding PrinterState, Converter={StaticResource StateToColor}}"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Row 1: Connect All action -->
+        <Button Grid.Row="1"
+                Text="Connect All"
+                Command="{Binding ConnectAllCommand}"
+                BackgroundColor="{StaticResource BrandAccent}"
+                TextColor="White"
+                Margin="12,4,12,12"/>
+
+        <!-- Row 2: Shared event log -->
+        <Border Grid.Row="2"
+                BackgroundColor="#0D1117"
+                Stroke="#0D1117"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="0"
+                Padding="10"
+                Margin="12,0,12,12"
+                HeightRequest="200">
+            <Grid RowDefinitions="Auto,*" RowSpacing="6">
+                <Label Grid.Row="0"
+                       Text="LIVE EVENT LOG"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="12"
+                       FontFamily="Courier New"/>
+                <CollectionView Grid.Row="1"
+                                x:Name="LogCollectionView"
+                                ItemsSource="{Binding Log}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:LogEntry">
+                            <Label Text="{Binding Display}"
+                                   FontFamily="Courier New"
+                                   FontSize="12"
+                                   TextColor="{Binding Level, Converter={StaticResource LevelToColor}}"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+
+    </Grid>
+</ContentPage>

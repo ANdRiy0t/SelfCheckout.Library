@@ -1,0 +1,31 @@
+<Project>
+
+  <!-- Organization-wide NuGet package metadata. Applies to every project; harmless on non-packable ones. -->
+  <PropertyGroup>
+    <Authors>Andrii Kozmenchuk</Authors>
+    <Copyright>Copyright (c) Andrii Kozmenchuk</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/and-kozmenchuk/SelfCheckout.Library</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/and-kozmenchuk/SelfCheckout.Library</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- MinVer + SourceLink: only for packable projects. Transports has IsPackable=false so this ItemGroup is skipped there. -->
+  <ItemGroup Condition="'$(IsPackable)' != 'false'">
+    <PackageReference Include="MinVer" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

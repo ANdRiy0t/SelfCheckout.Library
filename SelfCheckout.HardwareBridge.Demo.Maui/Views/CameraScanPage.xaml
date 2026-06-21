@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SelfCheckout.HardwareBridge.Demo.Maui.ViewModels"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+             x:Class="SelfCheckout.HardwareBridge.Demo.Maui.Views.CameraScanPage"
+             x:DataType="vm:CameraScanViewModel"
+             Title="Scan Barcode">
+
+    <Grid RowDefinitions="*,Auto" Padding="0">
+        <zxing:CameraBarcodeReaderView
+            x:Name="Reader"
+            Grid.Row="0"
+            IsDetecting="{Binding IsScanning}"
+            BarcodesDetected="OnBarcodesDetected" />
+
+        <Button Grid.Row="1"
+                Text="Close"
+                Margin="16"
+                HorizontalOptions="Fill"
+                Command="{Binding CloseCommand}" />
+    </Grid>
+</ContentPage>
